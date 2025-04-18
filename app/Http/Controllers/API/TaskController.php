@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -45,5 +46,11 @@ class TaskController extends Controller
     {
         $task->delete();
         return response()->json(['message' => 'Tâche supprimée']);
+    }
+
+    public function getByProject(Project $project)
+    {
+        $tasks = $project->tasks()->get();
+        return response()->json($tasks);
     }
 }
