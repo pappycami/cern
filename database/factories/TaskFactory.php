@@ -17,8 +17,11 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(4),
-            'status' => $this->faker->randomElement(['pending', 'in_progress', 'done']),
+            'title' => fake()->sentence(4),
+            'description' => fake()->optional()->paragraph(1),
+            'status' => fake()->randomElement(['pending', 'doing', 'done']),
+            'due_date' => optional(fake()->optional()->dateTimeBetween('now', '+1 month'))->format('Y-m-d'),
+            // 'project_id' sera défini depuis le seeder
         ];
     }
 }

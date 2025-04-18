@@ -17,7 +17,7 @@ class ProjectWithTasksSeeder extends Seeder
             ->create()
             ->each(function ($project) {
                 $project->tasks()->createMany(
-                    Task::factory()->count(rand(2, 5))->make()->toArray()
+                    Task::factory()->count(rand(1, 10))->make()->toArray()
                 );
             });
     }
