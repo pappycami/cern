@@ -3,10 +3,17 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+
+    public function getByTask(Task $task)
+    {
+        $project = $task->project()->get();
+        return response()->json($project);
+    }
 
     public function index()
     {
