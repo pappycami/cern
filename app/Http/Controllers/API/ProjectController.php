@@ -7,7 +7,6 @@ use App\Http\Requests\Project\ProjectUpdateRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
