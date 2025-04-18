@@ -9,7 +9,8 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return response()->json(Task::with('project')->latest()->get());
+        $task = Task::with('project')->latest()->paginate(10);
+        return response()->json($task);
     }
 
     public function store(Request $request)

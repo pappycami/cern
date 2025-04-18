@@ -10,7 +10,8 @@ class ProjectController extends Controller
 
     public function index()
     {
-        return response()->json(Project::latest()->get());
+        $project = Project::latest()->paginate(10);
+        return response()->json($project);
     }
 
     public function store(Request $request)
@@ -21,7 +22,6 @@ class ProjectController extends Controller
         ]);
 
         $project = Project::create($validated);
-
         return response()->json($project, 201);
     }
 
