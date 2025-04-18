@@ -2,13 +2,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        return response()->json(Task::with('project')->latest()->get());
+        $task = Task::with('project')->latest()->paginate(10);
+        return response()->json($task);
     }
 
     public function store(Request $request)
