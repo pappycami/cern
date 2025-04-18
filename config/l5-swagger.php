@@ -28,7 +28,8 @@ return [
                 /*
                  * File name of the generated json documentation file
                  */
-                'docs_json' => 'api-docs.json',
+                'docs_json' => 'api-docs.json', // <--- ici
+                'docs' => storage_path('api-docs'), // <--- chemin physique
 
                 /*
                  * File name of the generated YAML documentation file
