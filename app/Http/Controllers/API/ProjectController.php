@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Project\ProjectCreateRequest;
+use App\Http\Requests\Project\ProjectUpdateRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
@@ -62,14 +64,9 @@ class ProjectController extends Controller
         return response()->json($project);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(ProjectCreateRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        $project = Project::create($validated);
+        $project = Project::create($request->validated());
         return response()->json($project, 201);
     }
 
@@ -78,14 +75,9 @@ class ProjectController extends Controller
         return response()->json($project);
     }
 
-    public function update(Request $request, Project $project): JsonResponse
+    public function update(ProjectUpdateRequest $request, Project $project): JsonResponse
     {
-        $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        $project->update($validated);
+        $project->update($request->validated());
         return response()->json($project, 203);
     }
 

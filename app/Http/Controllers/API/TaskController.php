@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\TaskCreateRequest;
+use App\Http\Requests\Task\TaskUpdateRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
@@ -34,14 +36,9 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(TaskCreateRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'title'      => 'required|string|max:255',
-            'status'     => 'in:pending,in_progress,done',
-            'project_id' => 'required|exists:projects,id',
-        ]);
-        $task = Task::create($validated);
+        $task = Task::create($request->validated());
         return response()->json($task, 201);
     }
 
@@ -50,15 +47,9 @@ class TaskController extends Controller
         return response()->json($task->load('project'));
     }
 
-    public function update(Request $request, Task $task): JsonResponse
+    public function update(TaskUpdateRequest $request, Task $task): JsonResponse
     {
-        $validated = $request->validate([
-            'title'      => 'required|string|max:255',
-            'status'     => 'in:pending,in_progress,done',
-            'project_id' => 'required|exists:projects,id',
-        ]);
-
-        $task->update($validated);
+        $task->update($request->validated());
         return response()->json($task);
     }
 
