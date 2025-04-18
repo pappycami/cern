@@ -12,13 +12,41 @@ class ProjectController extends Controller
 
     public function getByTask(Task $task): JsonResponse
     {
-        $project = $task->project()->latest()->paginate(10);
+        $sortBy = request('sort_by', 'created_at');
+        $sortOrder = request('sort_order', 'desc');
+
+        $allowedOrder = ['asc', 'desc'];
+        $allowedSorts = ['title', 'created_at', 'updated_at', 'status'];
+
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'created_at';
+        }
+        if (!in_array($sortOrder, $allowedOrder)) {
+            $sortOrder = 'desc';
+        }
+
+        $project = $task->project()
+                        ->orderBy($sortBy, $sortOrder)
+                        ->paginate(10);
         return response()->json($project);
     }
 
     public function index(): JsonResponse
     {
-        $project = Project::latest()->paginate(10);
+        $sortBy = request('sort_by', 'created_at');
+        $sortOrder = request('sort_order', 'desc');
+
+        $allowedOrder = ['asc', 'desc'];
+        $allowedSorts = ['title', 'created_at', 'updated_at', 'status'];
+
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'created_at';
+        }
+        if (!in_array($sortOrder, $allowedOrder)) {
+            $sortOrder = 'desc';
+        }
+
+        $project = Project::orderBy($sortBy, $sortOrder)->paginate(10);
         return response()->json($project);
     }
 
@@ -46,7 +74,7 @@ class ProjectController extends Controller
         ]);
 
         $project->update($validated);
-        return response()->json($project);
+        return response()->json($project, 203);
     }
 
     public function destroy(Project $project): JsonResponse

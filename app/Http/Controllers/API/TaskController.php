@@ -51,7 +51,22 @@ class TaskController extends Controller
 
     public function getByProject(Project $project): JsonResponse
     {
-        $tasks = $project->tasks()->latest()->get();
+        $sortBy = request('sort_by', 'created_at');
+        $sortOrder = request('sort_order', 'desc');
+
+        $allowedOrder = ['asc', 'desc'];
+        $allowedSorts = ['title', 'created_at', 'updated_at', 'status'];
+
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'created_at';
+        }
+        if (!in_array($sortOrder, $allowedOrder)) {
+            $sortOrder = 'desc';
+        }
+
+        $tasks = $project->tasks()
+                         ->orderBy($sortBy, $sortOrder)
+                         ->paginate(10);
         return response()->json($tasks);
     }
 }
