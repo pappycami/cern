@@ -35,18 +35,30 @@ class ProjectController extends Controller
     {
         $sortBy = request('sort_by', 'created_at');
         $sortOrder = request('sort_order', 'desc');
+        $filter  = request('filter');
+        $keyword = request('keyword');
 
-        $allowedOrder = ['asc', 'desc'];
-        $allowedSorts = ['title', 'created_at', 'updated_at', 'status'];
+        $allowedOrder  = ['asc', 'desc'];
+        $allowedSorts  = ['title','description', 'created_at', 'updated_at'];
+        $allowedFilter = ['title', 'description'];
 
         if (!in_array($sortBy, $allowedSorts)) {
             $sortBy = 'created_at';
         }
         if (!in_array($sortOrder, $allowedOrder)) {
-            $sortOrder = 'desc';
+            $sortOrder = 'title';
         }
 
-        $project = Project::orderBy($sortBy, $sortOrder)->paginate(10);
+        if (!in_array($filter, $allowedFilter)) {
+            $filter = 'title';
+        }
+
+        $query = Project::query();
+        if($filter && $keyword) {
+            $query->where($filter, "LIKE", "%".$keyword."%");
+        }
+
+        $project = $query->orderBy($sortBy, $sortOrder)->paginate(10);
         return response()->json($project);
     }
 

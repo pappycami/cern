@@ -11,7 +11,26 @@ class TaskController extends Controller
 {
     public function index(): JsonResponse
     {
-        $task = Task::with('project')->latest()->paginate(10);
+        $sortBy = request('sort_by', 'created_at');
+        $sortOrder = request('sort_order', 'desc');
+        $status = request('status');
+
+        $allowedOrder = ['asc', 'desc'];
+        $allowedSorts = ['title', 'created_at', 'updated_at', 'status'];
+
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'created_at';
+        }
+        if (!in_array($sortOrder, $allowedOrder)) {
+            $sortOrder = 'desc';
+        }
+
+        $query = Task::with('project');
+        if($status) {
+            $query->where('status', $status);
+        }
+
+        $task = $query->latest()->paginate(10);
         return response()->json($task);
     }
 
@@ -53,6 +72,7 @@ class TaskController extends Controller
     {
         $sortBy = request('sort_by', 'created_at');
         $sortOrder = request('sort_order', 'desc');
+        $status = request('status');
 
         $allowedOrder = ['asc', 'desc'];
         $allowedSorts = ['title', 'created_at', 'updated_at', 'status'];
@@ -64,9 +84,12 @@ class TaskController extends Controller
             $sortOrder = 'desc';
         }
 
-        $tasks = $project->tasks()
-                         ->orderBy($sortBy, $sortOrder)
-                         ->paginate(10);
+        $query = $project->tasks();
+        if($status) {
+            $query->where('status', $status);
+        }
+
+        $tasks =$query->orderBy($sortBy, $sortOrder)->paginate(10);
         return response()->json($tasks);
     }
 }
