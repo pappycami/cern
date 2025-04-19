@@ -1,0 +1,236 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "CERN API",
+        "description": "API pour la gestion des projets et tâches",
+        "contact": {
+            "email": "contact@cern.test"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://cern.test",
+            "description": "Serveur principal"
+        }
+    ],
+    "paths": {
+        "/api/projects/by-task/{task}": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Afficher un projet lié à une tâche",
+                "operationId": "337cf6019d9573b89a2e9ba3b059e6c0",
+                "parameters": [
+                    {
+                        "name": "task",
+                        "in": "path",
+                        "description": "ID de la tâche",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Projet lié à la tâche"
+                    }
+                }
+            }
+        },
+        "/api/projects": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Lister les projets avec tri et filtre",
+                "operationId": "2ea4919d0a733012d5e30a9c60233aca",
+                "parameters": [
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_order",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des projets"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Créer un nouveau projet",
+                "operationId": "48ad9efff74ef8cbc32998fcb386e258",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProjectCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Projet créé"
+                    }
+                }
+            }
+        },
+        "/api/projects/{project}": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Afficher un projet spécifique",
+                "operationId": "552f53652377ec7f5aae9887e6679043",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails du projet"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Mettre à jour un projet",
+                "operationId": "bbeef61e7801cf95e0c1011dd63214ed",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProjectUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "203": {
+                        "description": "Projet mis à jour"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Supprimer un projet",
+                "operationId": "8209c1dde4339910bef9dcdeb7e6b6c9",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Projet supprimé"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ProjectCreateRequest": {
+                "required": [
+                    "title",
+                    "description"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Nouveau projet"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Description du projet"
+                    }
+                },
+                "type": "object"
+            },
+            "ProjectUpdateRequest": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Titre mis à jour"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Description mise à jour"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Projects",
+            "description": "Gestion des projets"
+        }
+    ]
+}

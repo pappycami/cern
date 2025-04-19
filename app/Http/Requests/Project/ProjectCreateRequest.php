@@ -3,7 +3,18 @@
 namespace App\Http\Requests\Project;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * @OA\Schema(
+ *     schema="ProjectCreateRequest",
+ *     required={"title", "description"},
+ *     @OA\Property(property="title", type="string", example="Nouveau projet"),
+ *     @OA\Property(property="description", type="string", example="Description du projet")
+ * )
+ */
 class ProjectCreateRequest extends FormRequest
 {
     /**
@@ -26,5 +37,14 @@ class ProjectCreateRequest extends FormRequest
             'description' => 'nullable|string',
             'status' => 'required|in:todo,doing,done',
         ];
+    }
+
+    public function failedValidation(Validator $validator): JsonResponse
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'errors' => $validator->errors(),
+            ], 422)
+        );
     }
 }

@@ -4,6 +4,13 @@ namespace App\Http\Requests\Project;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="ProjectUpdateRequest",
+ *     @OA\Property(property="title", type="string", example="Titre mis à jour"),
+ *     @OA\Property(property="description", type="string", example="Description mise à jour")
+ * )
+ */
 class ProjectUpdateRequest extends FormRequest
 {
     /**
