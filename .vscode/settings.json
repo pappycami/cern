@@ -1,3 +1,4 @@
 {
-    "intelephense.diagnostics.undefinedFunctions": false
+    "intelephense.diagnostics.undefinedFunctions": false,
+    "editor.autoClosingDelete": "always"
 }
