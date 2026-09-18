@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use OpenApi\Annotations as OA;
 
 /**
@@ -22,5 +24,5 @@ use OpenApi\Annotations as OA;
 
 abstract class Controller
 {
-    //
+    use AuthorizesRequests, ValidatesRequests;
 }

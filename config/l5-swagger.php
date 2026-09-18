@@ -230,6 +230,17 @@ return [
 
                     'passport' => []
                     */],
+                'security' => [
+                    [
+                        'BearerAuth' => []
+                    ],
+                ],
+            ],
+            'BearerAuth' => [
+                'type' => 'apiKey',
+                'description' => 'Enter token in format (Bearer <token>)',
+                'name' => 'Authorization',
+                'in' => 'header',
             ],
         ],
 
