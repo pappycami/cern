@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->enum('status', ['pending', 'in_progress', 'done'])->default('pending');
+            $table->string('description', 255)->nullable();
+            $table->enum('status', ['pending', 'doing', 'done'])->default('pending');
+            $table->dateTime('due_date')->nullable();
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -8,7 +8,7 @@ class Task extends Model
 {
     use HasFactory; // ← ajouter ça
 
-    protected $fillable = ['title', 'status', 'project_id'];
+    protected $fillable = ['title', 'status', 'due', 'project_id'];
 
     public function project()
     {
